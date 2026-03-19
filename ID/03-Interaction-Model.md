@@ -17,6 +17,8 @@ Pada V2, komunikasi pembayaran distandarkan lewat 3 header Base64-encoded JSON:
 - **`PAYMENT-SIGNATURE`** (Client → Server): `PaymentPayload` (authorization/payload pembayaran)
 - **`PAYMENT-RESPONSE`** (Server → Client): `SettlementResponse` (hasil verify/settle, sukses/gagal)
 
+Contoh HTTP mentah (402 → retry 200) dan mapping field canonical V2 tersedia di: [20 - Canonical Fields](./20-Canonical-Fields.md)
+
 ## Mermaid (Sequence)
 
 ```mermaid

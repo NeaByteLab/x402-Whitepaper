@@ -8,6 +8,8 @@ An authorization credential proves that:
 - the payment amount does not exceed `maxAmountRequired`
 - the signature comes from the relevant wallet
 
+In x402 V2 wire format, this credential is carried in the **`PAYMENT-SIGNATURE`** header (client → server).
+
 ## Authorization Contents (Whitepaper)
 
 The whitepaper describes a signed message containing:
@@ -19,10 +21,49 @@ The whitepaper describes a signed message containing:
 
 The whitepaper mentions **EIP-712** signatures.
 
+## Canonical V2 Binding (What Must Be Bound)
+
+For modern V2 implementations, the binding source of truth is `PAYMENT-REQUIRED`, specifically `resource` and `accepts[]`. The canonical V2 terminology mapping is in: [20 - Canonical Fields](./20-Canonical-Fields.md)
+
+At minimum, the signed credential must bind:
+
+- **resource**: `resource.url` (at least the relevant path + query)
+- **network**: `accepts[].network` (CAIP-2)
+- **asset**: `accepts[].asset`
+- **recipient**: `accepts[].payTo`
+- **amount**: the paid amount and its maximum (if using a “max + actual” model)
+- **freshness**: timestamp plus an expiry window (or `expiresAt`)
+- **anti-replay**: `nonce` and/or `paymentId` (or the payment identifier extension)
+
+If any of these bindings are missing, tampering and replay across endpoints or recipients becomes easier.
+
 ## EIP-712 Meaning (Practical)
 
 - Reduces signing ambiguity compared to arbitrary string signing
 - Helps wallet UIs display what is being approved clearly (domain, amount, asset, resource)
+
+## Server Verification Checklist (Practical)
+
+Use this checklist when processing retry requests carrying `PAYMENT-SIGNATURE`.
+
+- **Decode** the `PAYMENT-SIGNATURE` payload and extract:
+  - payer identity (address/signing key)
+  - bound fields (resource, network, asset, payTo, amount, expiry, nonce/paymentId)
+  - signature/proof required by the mechanism
+- **MUST** check resource binding:
+  - the payload resource must match the currently requested resource
+- **MUST** check destination binding:
+  - `payTo` must match the offered value exactly
+- **MUST** check economic binding:
+  - asset must match
+  - amount must satisfy the selected rule (exact, or \( \le \) max)
+- **MUST** check freshness:
+  - not expired
+  - timestamp is within an acceptable window
+- **MUST** prevent replay:
+  - reject previously used nonce/paymentId (or use the idempotency extension)
+- **SHOULD** persist the receipt:
+  - store `PAYMENT-RESPONSE` for audit trails and disputes
 
 ## Wallet As Identity (Implication)
 

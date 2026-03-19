@@ -20,6 +20,16 @@ This document summarizes the minimum steps to make a paid HTTP endpoint with x40
   - requests without payment headers return `402`
   - retried requests with valid payment payloads return `200`
 
+## 5-Minute Smoke Test (No Internal SDK Assumptions)
+
+The goal of this smoke test is to validate wire format, not perfect wallet integration.
+
+- Ensure the first request returns `402` and includes `PAYMENT-REQUIRED`
+- Decode `PAYMENT-REQUIRED` and confirm `accepts[]` contains `scheme`, `network`, `asset`, and `payTo`
+- Ensure the paid retry returns `200` and includes `PAYMENT-RESPONSE`
+
+Raw HTTP examples and canonical V2 field mapping: [20 - Canonical Fields](./20-Canonical-Fields.md)
+
 ## Safe Defaults (Security Friendly)
 
 - Start on testnets, move to mainnet after the flow and idempotency are stable

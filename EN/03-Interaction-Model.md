@@ -17,6 +17,8 @@ In V2, payment communication is standardized via three Base64-encoded JSON heade
 - **`PAYMENT-SIGNATURE`** (Client → Server): `PaymentPayload` (authorization and payment payload)
 - **`PAYMENT-RESPONSE`** (Server → Client): `SettlementResponse` (verify and settle outcome, success or failure)
 
+Raw HTTP examples (402 → retry 200) and the canonical V2 field mapping are in: [20 - Canonical Fields](./20-Canonical-Fields.md)
+
 ## Mermaid (Sequence)
 
 ```mermaid

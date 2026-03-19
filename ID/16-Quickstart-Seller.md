@@ -20,6 +20,16 @@ Dokumen ini merangkum langkah minimum untuk membuat endpoint HTTP berbayar denga
   - request tanpa payment header menghasilkan `402`
   - request retry dengan payment payload menghasilkan `200`
 
+## 5-Minute Smoke Test (Tanpa SDK Internal)
+
+Tujuan smoke test ini adalah memvalidasi wire format, bukan “integrasi wallet” yang sempurna.
+
+- Pastikan request pertama menghasilkan `402` dan header `PAYMENT-REQUIRED` ada
+- Decode `PAYMENT-REQUIRED` untuk memastikan `accepts[]` berisi `scheme`, `network`, `asset`, dan `payTo`
+- Pastikan request paid-retry menghasilkan `200` dan header `PAYMENT-RESPONSE` ada
+
+Contoh HTTP mentah dan mapping field canonical V2: [20 - Canonical Fields](./20-Canonical-Fields.md)
+
 ## Safe Defaults (Security Friendly)
 
 - Mulai dari testnet dulu, lalu pindah mainnet setelah flow dan idempotency stabil

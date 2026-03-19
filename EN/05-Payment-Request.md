@@ -20,23 +20,12 @@ This payload includes acceptance details (scheme, price, network, payTo) and can
 
 ## Key Fields (Data Contract)
 
-The whitepaper describes a payment request payload with fields such as:
+Modern V2 implementations are centered around the `accepts[]` entries inside `PaymentRequired`.
 
-- **maxAmountRequired**
-- **assetType**
-- **assetAddress**
-- **paymentAddress**
-- **network**
-- **expiresAt**
-- **nonce**
-- **paymentId**
+- For the canonical V2 field mapping, see: [20 - Canonical Fields](./20-Canonical-Fields.md)
+- Important note: some historical documents use aliases like `paymentAddress` or `assetAddress`. In practice, V2 publishes the same concepts via `accepts[].payTo` and `accepts[].asset`.
 
-Practical 402 examples also include:
-
-- **resource**
-- **description**
-- **payTo**
-- **asset**
+If a server uses `price` (for example `'$0.01'`), the facilitator or mechanism maps that into the required token `amount`. Clients should follow `accepts[]` from `PAYMENT-REQUIRED` rather than guessing asset or amount.
 
 ## Security Meaning (Must Be Locked Down)
 

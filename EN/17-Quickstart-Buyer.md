@@ -22,6 +22,13 @@ This document summarizes the minimum pattern for a client that can pay x402-prot
   - create `PAYMENT-SIGNATURE`
   - retry the request
 
+## Reality Check (Common Misreadings)
+
+- `PAYMENT-SIGNATURE` is a **request header** (client → server). It is normal for it to be absent from responses.
+- The receipt is carried in `PAYMENT-RESPONSE` on `200`, persist it for audit trails.
+
+Raw HTTP examples and canonical V2 field mapping: [20 - Canonical Fields](./20-Canonical-Fields.md)
+
 ## Safe Defaults (User And Security Friendly)
 
 - Enforce per-request and periodic spend limits via `onBeforePaymentCreation`

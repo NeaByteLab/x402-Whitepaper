@@ -20,23 +20,12 @@ Payload ini berisi detail acceptance (mis. skema pembayaran, harga, network, pay
 
 ## Field Penting (Kontrak Data)
 
-Whitepaper mendeskripsikan payload payment request dengan field:
+Implementasi V2 modern berpusat pada `accepts[]` di dalam `PaymentRequired`.
 
-- **maxAmountRequired**
-- **assetType**
-- **assetAddress**
-- **paymentAddress**
-- **network**
-- **expiresAt**
-- **nonce**
-- **paymentId**
+- Untuk daftar field canonical V2, lihat: [20 - Canonical Fields](./20-Canonical-Fields.md)
+- Catatan penting: beberapa dokumen historis menampilkan nama alias seperti `paymentAddress` atau `assetAddress`. Secara praktik, V2 akan mempublikasikan konsep yang sama lewat `accepts[].payTo` dan `accepts[].asset`.
 
-Contoh payload 402 juga menampilkan field praktis:
-
-- **resource**
-- **description**
-- **payTo**
-- **asset**
+Jika server memakai `price` (mis. `'$0.01'`), facilitator atau mekanisme yang dipakai akan memetakan `price` ke `amount` token yang dibutuhkan. Client sebaiknya berpegang pada `accepts[]` yang diterima di `PAYMENT-REQUIRED`, bukan menebak sendiri asset atau amount.
 
 ## Makna Security (Yang Wajib Dikunci)
 

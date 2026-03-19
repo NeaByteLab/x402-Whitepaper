@@ -22,6 +22,13 @@ Dokumen ini merangkum pola minimum untuk client yang dapat membayar endpoint x40
   - membentuk `PAYMENT-SIGNATURE`
   - retry request
 
+## Reality Check (Yang Sering Disangka Salah)
+
+- `PAYMENT-SIGNATURE` adalah **header request** (client → server). Normal jika tidak muncul di response.
+- Receipt ada di `PAYMENT-RESPONSE` saat `200`, simpan untuk audit trail.
+
+Contoh HTTP mentah dan mapping field canonical V2: [20 - Canonical Fields](./20-Canonical-Fields.md)
+
 ## Safe Defaults (User And Security Friendly)
 
 - Batasi spending per request dan per periode, gunakan hook `onBeforePaymentCreation`

@@ -34,6 +34,7 @@ Breakdown x402 implementable untuk developer, security, dan user experience.
 - [17 - Quickstart Buyer](./17-Quickstart-Buyer.md)
 - [18 - FAQ And Troubleshooting](./18-Faq-Troubleshooting.md)
 - [19 - Stripe Interoperability](./19-Stripe-Interoperability.md)
+- [20 - Canonical Fields](./20-Canonical-Fields.md)
 
 ## Suggested Reading Order
 
